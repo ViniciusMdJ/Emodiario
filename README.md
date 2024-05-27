@@ -53,7 +53,6 @@ Para clonar e executar este aplicativo, você precisará do Android Studio insta
 - Banco de Dados: SQLite
 - Bibliotecas:
     - Retrofit
-    - 
 ## Contribuição
 
 Contribuições são bem-vindas! Para contribuir, siga as etapas abaixo:
