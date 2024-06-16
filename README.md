@@ -37,21 +37,24 @@ Para clonar e executar este aplicativo, você precisará do Android Studio insta
 2. Abra o projeto no Android Studio.
 3. Conecte um dispositivo Android ou inicie um emulador.
 4. Compile e execute o aplicativo.
+   
 ## Uso
+
 1. Abra o aplicativo.
 2. Selecione uma categoria de atividade (e.g., trabalho, deslocamento).
 3. Registre seu sentimento atual e adicione uma breve descrição se desejar.
 4. Salve o registro.
 5. Acesse o histórico para visualizar e analisar seus registros passados.
+   
 ## Tecnologias Utilizadas
+
 - Linguagem: Java/Kotlin
 - IDE: Android Studio
 - Banco de Dados: SQLite
 - Bibliotecas:
-    - Retrofit (para chamadas de API, se necessário)
-    - Room (para persistência de dados)
-    - MPAndroidChart (para gráficos)
+    - Retrofit
 ## Contribuição
+
 Contribuições são bem-vindas! Para contribuir, siga as etapas abaixo:
 
 1. Fork o projeto.
@@ -61,9 +64,11 @@ Contribuições são bem-vindas! Para contribuir, siga as etapas abaixo:
 5. Abra um Pull Request.
 
 ## Licença
+
 Este projeto está licenciado sob a licença MIT. Veja o arquivo [LICENSE](./LICENSE) para mais detalhes.
 
 ## Contato
+
 Para qualquer dúvida ou sugestão, sinta-se à vontade para entrar em contato:
 
 - Vinicius Moraes de Jesus
