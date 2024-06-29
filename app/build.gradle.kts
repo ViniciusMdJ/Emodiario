@@ -1,6 +1,10 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id("com.google.dagger.hilt.android")
+    alias(libs.plugins.android.kapt)
+    alias(libs.plugins.serialization)
+    id("kotlin-parcelize")
 }
 
 android {
@@ -66,4 +70,23 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    // Compose navigation
+    implementation(libs.androidx.navigation.compose)
+
+    // Hilt
+    implementation(libs.hilt)
+    implementation(libs.hilt.navigation.compose)
+    kapt(libs.hilt.compiler)
+
+    // Serialization
+    implementation(libs.serialization)
+
+    // coil
+    implementation(libs.coil)
+}
+
+// Allow references to generated code
+kapt {
+    correctErrorTypes = true
 }
