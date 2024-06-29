@@ -1,3 +1,32 @@
 <resources>
     <string name="app_name">Emodiario</string>
+    <string name="password">Senha</string>
+    <string name="email">E-mail</string>
+    <string name="forgot_password">Esqueci minha senha</string>
+    <string name="btn_login">ENTRAR</string>
+    <string name="dont_have_account">Não possui uma conta?</string>
+    <string name="register">Cadastre-se</string>
+    <string name="name">Nome</string>
+    <string name="confirm_password">Confirmar senha</string>
+    <string name="btn_register">CADASTRAR</string>
+    <string name="full_name">Nome completo</string>
+    <string name="phone_number">Telefone</string>
+    <string name="register_title">Cadastre-se</string>
+    <string name="home_description">Qual atividade gostaria de avaliar?</string>
+    <string name="btn_register_newActivity">CADASTRAR NOVA ATIVIDADE</string>
+    <string name="text_card_eval">AVALIAR</string>
+    <string name="register_activity_title">Nova categoria</string>
+    <string name="placeholder_name_register_activity">Trabalho, Academia, Terapia...</string>
+    <string name="label_name_resgister_activity">Qual atividade gostaria de registrar?</string>
+    <string name="label_description_resgister_activity">Breve descrição da atividade (*Opcional)</string>
+    <string name="placeholder_description_register_activity">Descrição</string>
+    <string name="label_date_resgister_activity">Quando você quer iniciar?</string>
+    <string name="rating_title">Avaliação</string>
+    <string name="label_rating_activity">Como está se sentindo após atividade?</string>
+    <string name="label_description_rating_activity">Gostaria de comentar ou registrar algo?</string>
+    <string name="label_date_rating_activity">Data</string>
+    <string name="placeholder_description_rating_activity">Minha Descrição</string>
+    <string name="terrible">Terrivel</string>
+    <string name="label_mood">Humor</string>
+    <string name="label_daily">Diário</string>
 </resources>
