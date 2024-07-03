@@ -1,12 +1,9 @@
 package com.emodiario.domain.model
 
-import androidx.compose.ui.res.stringResource
-import com.emodiario.R
-
-enum class CommuteRating(val value: String) {
-    TERRIBLE("Terrivel"),
-    BAD("Ruim"),
-    AVERAGE("Médio"),
-    GOOD("Feliz"),
-    EXCELLENT("Excelente")
+enum class CommuteRating(val nameValue: String, val value: Int) {
+    TERRIBLE("Terrivel", 1),
+    BAD("Ruim", 2),
+    AVERAGE("Médio",3),
+    GOOD("Feliz", 4),
+    EXCELLENT("Excelente", 5)
 }
