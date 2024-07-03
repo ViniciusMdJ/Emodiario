@@ -1,20 +1,12 @@
 package com.emodiario.presentation.rating
 
-import com.emodiario.common.UiState
-import com.emodiario.domain.model.Activity
+import com.emodiario.presentation.common.UiState
 import com.emodiario.domain.model.CommuteRating
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import java.util.Date
 
 class RatingUiState : UiState() {
-    private val _activity = MutableStateFlow<Activity?>(null)
-    val activity = _activity.asStateFlow()
-
-    fun updateActivity(value: Activity) {
-        _activity.value = value
-    }
-
     private val _rating = MutableStateFlow<CommuteRating?>(null)
     val rating = _rating.asStateFlow()
 
@@ -22,15 +14,11 @@ class RatingUiState : UiState() {
         _rating.value = value
     }
 
-    private val _description = MutableStateFlow<String?>(null)
+    private val _description = MutableStateFlow("")
     val description = _description.asStateFlow()
 
     fun updateDescription(value: String) {
-        if (value.isEmpty()) {
-            _description.value = null
-        } else {
-            _description.value = value
-        }
+        _description.value = value
     }
 
     private val _date = MutableStateFlow(Date().time)
