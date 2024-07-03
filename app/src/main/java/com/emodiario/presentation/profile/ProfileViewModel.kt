@@ -3,7 +3,6 @@ package com.emodiario.presentation.profile
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.emodiario.domain.model.User
 import com.emodiario.domain.use_cases.GetProfileUseCase
 import com.emodiario.presentation.common.toMessageError
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,11 +17,11 @@ class ProfileViewModel @Inject constructor(
 ) : ViewModel() {
     val uiState = ProfileUiState()
 
-    fun setContent() {
+    fun getContent(userId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 uiState.setLoading()
-                val profile = profileRepository(1)
+                val profile = profileRepository(userId)
                 uiState.updateName(profile.name)
                 uiState.updatePhotoUrl(profile.photoUrl ?: "")
                 Log.i("ProfileViewModel", "Profile: $profile")

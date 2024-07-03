@@ -31,7 +31,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.emodiario.R
-import com.emodiario.domain.model.User
 import com.emodiario.presentation.common.ui_components.NetworkImage
 import com.emodiario.ui.theme.EmodiarioTheme
 
@@ -39,8 +38,10 @@ import com.emodiario.ui.theme.EmodiarioTheme
 fun ProfileScreen(
     onBackPressed: () -> Unit,
     onLogoutPressed: () -> Unit,
+    userId: Int,
     viewModel: ProfileViewModel = hiltViewModel()
 ) {
+    viewModel.getContent(userId)
 
     val name = viewModel.uiState.name.collectAsState()
     val photoUrl = viewModel.uiState.photoUrl.collectAsState()
