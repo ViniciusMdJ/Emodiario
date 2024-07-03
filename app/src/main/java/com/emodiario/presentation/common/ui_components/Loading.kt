@@ -1,4 +1,4 @@
-package com.emodiario.common.ui_components
+package com.emodiario.presentation.common.ui_components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

@@ -1,4 +1,4 @@
-package com.emodiario.common.ui_components
+package com.emodiario.presentation.common.ui_components
 
 import androidx.compose.material3.Button
 import androidx.compose.material3.DatePicker
@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusEvent
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.tooling.preview.Preview
-import com.emodiario.common.toBrazilianDateFormat
+import com.emodiario.presentation.common.toBrazilianDateFormat
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
