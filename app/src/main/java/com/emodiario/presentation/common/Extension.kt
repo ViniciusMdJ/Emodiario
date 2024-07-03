@@ -1,5 +1,9 @@
-package com.emodiario.common
+package com.emodiario.presentation.common
 
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
+import com.emodiario.R
+import retrofit2.HttpException
 import java.text.SimpleDateFormat
 import java.time.DayOfWeek
 import java.time.Instant
@@ -41,4 +45,14 @@ fun Long.toHistoryRatingDateFormat(
     else "Sábado"
 
     return "$day, ${formatter.format(date)}"
+}
+
+fun HttpException.toMessageError(): String {
+    return response()?.errorBody()?.string() ?: ""
+}
+
+fun String.toDate(): Date{
+    val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale("pt-br"))
+    val date = formatter.parse(this)
+    return date
 }

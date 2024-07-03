@@ -1,4 +1,4 @@
-package com.emodiario.common
+package com.emodiario.presentation.common
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

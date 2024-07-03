@@ -1,4 +1,4 @@
-package com.emodiario.common
+package com.emodiario.presentation.common
 
 sealed class ScreenState {
     object Loading : ScreenState()
