@@ -29,4 +29,12 @@
     <string name="terrible">Terrivel</string>
     <string name="label_mood">Humor</string>
     <string name="label_daily">Diário</string>
+    <string name="profile_title">Meu perfil</string>
+    <string name="logout">Sair</string>
+    <string name="retry">Recarregar</string>
+    <string name="yes">Sim</string>
+    <string name="no">Não</string>
+    <string name="title_confirmation_logout">Voce deseja sair?</string>
+    <string name="ok">Ok</string>
+    <string name="btn_register_rating">AVALIAR</string>
 </resources>
