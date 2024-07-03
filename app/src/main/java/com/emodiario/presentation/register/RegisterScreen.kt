@@ -26,8 +26,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.emodiario.R
-import com.emodiario.common.ui_components.PasswordTextField
-import com.emodiario.common.ui_components.TextFieldCustom
+import com.emodiario.domain.model.User
+import com.emodiario.presentation.common.PhoneMask
+import com.emodiario.presentation.common.ScreenState
+import com.emodiario.presentation.common.ui_components.PasswordTextField
+import com.emodiario.presentation.common.ui_components.TextFieldCustom
 import com.emodiario.ui.theme.EmodiarioTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -36,8 +39,9 @@ fun RegisterScreen(
     modifier: Modifier = Modifier,
     viewModel: RegisterViewModel = hiltViewModel(),
     onBackPressed: () -> Unit,
-    navigateRegisterSuccessful: () -> Unit
+    navigateRegisterSuccessful: (User) -> Unit
 ) {
+    val screenState = viewModel.uiState.screenState.collectAsState().value
     Scaffold(
         modifier = modifier,
         topBar = {
@@ -73,7 +77,9 @@ fun RegisterScreen(
             TextFieldCustom(
                 text = viewModel.uiState.name.collectAsState().value,
                 onTextChanged = viewModel.uiState::updateName,
-                placeholderText = stringResource(id = R.string.full_name)
+                placeholderText = stringResource(id = R.string.full_name),
+                isError = viewModel.uiState.isErrorMessageNameVisible.collectAsState().value,
+                errorMessage = viewModel.uiState.errorMessageName.collectAsState().value
             )
 
             Text(stringResource(id = R.string.email))
@@ -82,7 +88,9 @@ fun RegisterScreen(
                 text = viewModel.uiState.email.collectAsState().value,
                 onTextChanged = viewModel.uiState::updateEmail,
                 placeholderText = stringResource(id = R.string.email),
-                keyboardType = KeyboardType.Email
+                keyboardType = KeyboardType.Email,
+                isError = viewModel.uiState.isErrorMessageEmailVisible.collectAsState().value,
+                errorMessage = viewModel.uiState.errorMessageEmail.collectAsState().value
             )
 
             Text(stringResource(id = R.string.phone_number))
@@ -91,7 +99,10 @@ fun RegisterScreen(
                 text = viewModel.uiState.phoneNumber.collectAsState().value,
                 onTextChanged = viewModel.uiState::updatePhoneNumber,
                 placeholderText = stringResource(id = R.string.phone_number),
-                keyboardType = KeyboardType.Phone
+                keyboardType = KeyboardType.Phone,
+                isError = viewModel.uiState.isErrorMessagePhoneNumberVisible.collectAsState().value,
+                errorMessage = viewModel.uiState.errorMessagePhoneNumber.collectAsState().value,
+                visualTransformation = PhoneMask()
             )
 
             Text(text = stringResource(id = R.string.password))
@@ -100,7 +111,9 @@ fun RegisterScreen(
                 text = viewModel.uiState.password.collectAsState().value,
                 onTextChanged = viewModel.uiState::updatePassword,
                 showPassword = viewModel.uiState.showPassword.collectAsState().value,
-                toggleVisibility = viewModel.uiState::toggleShowPassword
+                toggleVisibility = viewModel.uiState::toggleShowPassword,
+                isError = viewModel.uiState.isErrorMessagePasswordVisible.collectAsState().value,
+                errorMessage = viewModel.uiState.errorMessagePassword.collectAsState().value
             )
 
             Text(text = stringResource(id = R.string.confirm_password))
@@ -109,14 +122,17 @@ fun RegisterScreen(
                 text = viewModel.uiState.confirmPassword.collectAsState().value,
                 onTextChanged = viewModel.uiState::updateConfirmPassword,
                 showPassword = viewModel.uiState.showConfirmPassword.collectAsState().value,
-                toggleVisibility = viewModel.uiState::toggleShowConfirmPassword
+                toggleVisibility = viewModel.uiState::toggleShowConfirmPassword,
+                isError = viewModel.uiState.isErrorMessageConfirmPasswordVisible.collectAsState().value,
+                errorMessage = viewModel.uiState.errorMessageConfirmPassword.collectAsState().value
             )
 
             Button(
                 modifier = Modifier
                     .fillMaxWidth(),
                 shape = RoundedCornerShape(8.dp),
-                onClick = navigateRegisterSuccessful
+                onClick = { viewModel.register(navigateRegisterSuccessful) },
+                enabled = screenState != ScreenState.Loading
             ) {
                 Text(text = stringResource(id = R.string.btn_register))
             }
