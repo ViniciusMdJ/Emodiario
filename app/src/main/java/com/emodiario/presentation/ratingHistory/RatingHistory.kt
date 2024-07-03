@@ -21,12 +21,14 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.colorResource
@@ -38,7 +40,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.emodiario.R
-import com.emodiario.common.toHistoryRatingDateFormat
+import com.emodiario.presentation.common.toHistoryRatingDateFormat
 import com.emodiario.domain.model.CommuteRating
 import com.emodiario.domain.model.Rating
 import com.emodiario.ui.theme.EmodiarioTheme
@@ -47,29 +49,50 @@ import java.util.Date
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RatingHistoryScreen(
-    modifier: Modifier = Modifier,
     viewModel: RatingHistoryViewModel = hiltViewModel(),
     onBackPressed: () -> Unit,
-    activityId: String
+    activityId: Int,
+    activityName: String
 ) {
     viewModel.getRatingHistory(activityId)
     val items = viewModel.uiState.ratingHistory.collectAsState()
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(viewModel.uiState.topAppBarState)
+    val scrollBehavior =
+        TopAppBarDefaults.enterAlwaysScrollBehavior(viewModel.uiState.topAppBarState)
+
+    ScreenContent(
+        onBackPressed = onBackPressed,
+        items = items.value,
+        scrollBehavior = scrollBehavior,
+        activityName = activityName
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ScreenContent(
+    modifier: Modifier = Modifier,
+    onBackPressed: () -> Unit,
+    items: List<Rating>,
+    scrollBehavior: TopAppBarScrollBehavior,
+    activityName: String
+) {
     Scaffold(
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             LargeTopAppBar(
                 title = {
                     Text(
-                        text = stringResource(id = R.string.register_activity_title),
-                        textAlign = TextAlign.Center
+                        text = activityName,
+                        textAlign = TextAlign.Center,
+                        color = Color.White
                     )
                 },
                 navigationIcon = {
                     Icon(
                         modifier = Modifier.clickable { onBackPressed() },
                         painter = painterResource(id = R.drawable.ic_arrow_back),
-                        contentDescription = "Back buttom"
+                        contentDescription = "Back buttom",
+                        tint = Color.White
                     )
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -84,7 +107,7 @@ fun RatingHistoryScreen(
         LazyColumn(
             modifier = Modifier.padding(it)
         ) {
-            items(items.value) { rating ->
+            items(items) { rating ->
                 CardRatingHistory(rating = rating)
             }
         }
@@ -118,7 +141,7 @@ fun CardRatingHistory(
                         style = MaterialTheme.typography.bodyLarge
                     )
                     Text(
-                        text = rating.rating.value,
+                        text = rating.rating.nameValue,
                         style = MaterialTheme.typography.labelMedium,
                         color = colorResource(id = R.color.label_on_empty)
                     )
@@ -129,7 +152,7 @@ fun CardRatingHistory(
                         style = MaterialTheme.typography.bodyLarge
                     )
                     Text(
-                        text = rating.description,
+                        text = rating.description.orEmpty(),
                         style = MaterialTheme.typography.labelMedium,
                         color = colorResource(id = R.color.label_on_empty)
                     )
@@ -174,13 +197,29 @@ fun DrawVerticalLineWithCircles() {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
 fun RatingHistoryPreview() {
     EmodiarioTheme {
-        RatingHistoryScreen(
+        ScreenContent(
             onBackPressed = {},
-            activityId = ""
+            items = listOf(
+                Rating(
+                    id = 1,
+                    date = Date(System.currentTimeMillis()),
+                    rating = CommuteRating.BAD,
+                    description = "Teste"
+                ),
+                Rating(
+                    id = 1,
+                    date = Date(System.currentTimeMillis()),
+                    rating = CommuteRating.BAD,
+                    description = "Teste"
+                )
+            ),
+            scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(),
+            activityName = "Teste",
         )
     }
 }

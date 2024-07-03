@@ -2,7 +2,7 @@ package com.emodiario.presentation.ratingHistory
 
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TopAppBarState
-import com.emodiario.common.UiState
+import com.emodiario.presentation.common.UiState
 import com.emodiario.domain.model.Rating
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

@@ -1,50 +1,35 @@
 package com.emodiario.presentation.ratingHistory
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
-import com.emodiario.domain.model.CommuteRating
-import com.emodiario.domain.model.Rating
+import androidx.lifecycle.viewModelScope
+import com.emodiario.domain.use_cases.GetRatingHistoryUseCase
+import com.emodiario.presentation.common.toMessageError
 import dagger.hilt.android.lifecycle.HiltViewModel
-import java.util.Date
+import kotlinx.coroutines.launch
+import retrofit2.HttpException
 import javax.inject.Inject
 
 @HiltViewModel
-class RatingHistoryViewModel @Inject constructor() : ViewModel() {
+class RatingHistoryViewModel @Inject constructor(
+    private val getRatingHistoryUseCase: GetRatingHistoryUseCase
+) : ViewModel() {
     val uiState = RatingHistoryUiState()
 
-    fun getRatingHistory(activityId: String) {
-        uiState.updateRatingHistory(
-            listOf(
-                Rating(
-                    id = 1,
-                    date = Date(System.currentTimeMillis()),
-                    rating = CommuteRating.BAD,
-                    description = "Teste"
-                ),
-                Rating(
-                    id = 2,
-                    date = Date(System.currentTimeMillis()),
-                    rating = CommuteRating.GOOD,
-                    description = "Teste"
-                ),
-                Rating(
-                    id = 3,
-                    date = Date(System.currentTimeMillis()),
-                    rating = CommuteRating.EXCELLENT,
-                    description = "Teste"
-                ),
-                Rating(
-                    id = 4,
-                    date = Date(System.currentTimeMillis()),
-                    rating = CommuteRating.AVERAGE,
-                    description = "Teste"
-                ),
-                Rating(
-                    id = 5,
-                    date = Date(System.currentTimeMillis()),
-                    rating = CommuteRating.TERRIBLE,
-                    description = "Teste"
-                )
-            )
-        )
+    fun getRatingHistory(activityId: Int) {
+        viewModelScope.launch {
+            uiState.setLoading()
+            try {
+                val ratingHistory = getRatingHistoryUseCase(activityId)
+                uiState.updateRatingHistory(ratingHistory)
+                uiState.setContent()
+            } catch (e: HttpException) {
+                uiState.setError(e.toMessageError())
+                Log.e("RatingHistoryViewModel", e.toMessageError())
+            } catch (e: Exception) {
+                uiState.setError(e.message.orEmpty())
+                Log.e("RatingHistoryViewModel", e.message.orEmpty(), e)
+            }
+        }
     }
 }
