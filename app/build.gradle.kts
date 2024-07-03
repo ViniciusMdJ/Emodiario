@@ -84,6 +84,10 @@ dependencies {
 
     // coil
     implementation(libs.coil)
+
+    // Retrofit
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.gson)
 }
 
 // Allow references to generated code
