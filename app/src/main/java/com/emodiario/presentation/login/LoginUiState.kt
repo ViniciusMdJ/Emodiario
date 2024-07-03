@@ -1,8 +1,6 @@
 package com.emodiario.presentation.login
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
-import com.emodiario.common.UiState
+import com.emodiario.presentation.common.UiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
@@ -18,12 +16,18 @@ class LoginUiState : UiState() {
         _password.value = input
     }
 
+    val errorMessageEmail = MutableStateFlow("")
+    val isErrorMessageEmailVisible = MutableStateFlow(false)
+
     private val _email = MutableStateFlow("")
     val email = _email.asStateFlow()
 
     fun updateEmail(newEmail: String) {
         _email.value = newEmail
     }
+
+    val errorMessagePassword = MutableStateFlow("")
+    val isErrorMessagePasswordVisible = MutableStateFlow(false)
 
     private val _showPassword = MutableStateFlow(false)
     val showPassword = _showPassword.asStateFlow()

@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -26,10 +27,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.emodiario.R
-import com.emodiario.common.ScreenState
-import com.emodiario.common.ui_components.LoadingScreen
-import com.emodiario.common.ui_components.PasswordTextField
-import com.emodiario.common.ui_components.TextFieldCustom
+import com.emodiario.domain.model.User
+import com.emodiario.presentation.common.ScreenState
+import com.emodiario.presentation.common.ui_components.CardLoading
+import com.emodiario.presentation.common.ui_components.PasswordTextField
+import com.emodiario.presentation.common.ui_components.TextFieldCustom
 import com.emodiario.ui.theme.EmodiarioTheme
 
 @Composable
@@ -37,7 +39,56 @@ fun LoginScreen(
     viewModel: LoginViewModel = hiltViewModel(),
     onRegisterPressed: () -> Unit,
     onForgetPasswordPressed: () -> Unit,
-    navigateLoginSuccessful: () -> Unit
+    navigateLoginSuccessful: (User) -> Unit
+) {
+    val screenState = viewModel.uiState.screenState.collectAsState()
+    val email = viewModel.uiState.email.collectAsState()
+    val password = viewModel.uiState.password.collectAsState()
+    val showPassword = viewModel.uiState.showPassword.collectAsState()
+
+    ScreenContent(
+        email = email.value,
+        password = password.value,
+        showPassword = showPassword.value,
+        updateEmail = viewModel.uiState::updateEmail,
+        updatePassword = viewModel.uiState::updatePassword,
+        toggleShowPassword = viewModel.uiState::toggleShowPassword,
+        onRegisterPressed = onRegisterPressed,
+        onForgetPasswordPressed = onForgetPasswordPressed,
+        loginPressed = { viewModel.login(navigateLoginSuccessful) }
+    )
+    when (screenState.value) {
+        ScreenState.Loading -> CardLoading()
+        is ScreenState.Error -> {
+            AlertDialog(
+                onDismissRequest = { viewModel.uiState.setContent() },
+                confirmButton = {
+                    Button(
+                        onClick = { viewModel.uiState.setContent() }
+                    ) {
+                        Text(text = stringResource(id = R.string.ok))
+                    }
+                },
+                title = {
+                    Text(text = (screenState.value as ScreenState.Error).message)
+                },
+            )
+        }
+        else -> {}
+    }
+}
+
+@Composable
+fun ScreenContent(
+    email: String,
+    password: String,
+    showPassword: Boolean,
+    updateEmail: (String) -> Unit,
+    updatePassword: (String) -> Unit,
+    toggleShowPassword: () -> Unit,
+    onRegisterPressed: () -> Unit,
+    onForgetPasswordPressed: () -> Unit,
+    loginPressed: () -> Unit
 ) {
     Box(
         modifier = Modifier
@@ -77,8 +128,8 @@ fun LoginScreen(
                     modifier = Modifier.align(Alignment.Start)
                 )
                 TextFieldCustom(
-                    text = viewModel.uiState.email.collectAsState().value,
-                    onTextChanged = { viewModel.uiState.updateEmail(it) },
+                    text = email,
+                    onTextChanged = updateEmail,
                     keyboardType = KeyboardType.Email,
                     placeholderText = stringResource(id = R.string.email)
                 )
@@ -89,10 +140,10 @@ fun LoginScreen(
                     style = MaterialTheme.typography.bodyLarge
                 )
                 PasswordTextField(
-                    text = viewModel.uiState.password.collectAsState().value,
-                    onTextChanged = { viewModel.uiState.updatePassword(it) },
-                    showPassword = viewModel.uiState.showPassword.collectAsState().value,
-                    toggleVisibility = { viewModel.uiState.toggleShowPassword() }
+                    text = password,
+                    onTextChanged = updatePassword,
+                    showPassword = showPassword,
+                    toggleVisibility = toggleShowPassword
                 )
 
                 Text(
@@ -108,7 +159,7 @@ fun LoginScreen(
                     modifier = Modifier
                         .fillMaxWidth(),
                     shape = RoundedCornerShape(8.dp),
-                    onClick = navigateLoginSuccessful
+                    onClick = loginPressed
                 ) {
                     Text(text = stringResource(id = R.string.btn_login))
                 }
@@ -133,15 +184,20 @@ fun LoginScreen(
     }
 }
 
-
 @Preview
 @Composable
 fun LoginScreenPreview() {
     EmodiarioTheme {
-        LoginScreen(
+        ScreenContent(
+            email = "",
+            password = "aaaaaaaaa",
+            showPassword = false,
+            updateEmail = {},
+            updatePassword = {},
+            toggleShowPassword = {},
             onRegisterPressed = {},
-            navigateLoginSuccessful = {},
-            onForgetPasswordPressed = {}
-        )
+            onForgetPasswordPressed = {}) {
+
+        }
     }
 }
