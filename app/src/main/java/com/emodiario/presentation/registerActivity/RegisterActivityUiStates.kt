@@ -1,6 +1,6 @@
 package com.emodiario.presentation.registerActivity
 
-import com.emodiario.common.UiState
+import com.emodiario.presentation.common.UiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import java.util.Date
