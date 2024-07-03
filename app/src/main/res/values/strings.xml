@@ -16,7 +16,7 @@
     <string name="btn_register_newActivity">CADASTRAR NOVA ATIVIDADE</string>
     <string name="text_card_eval">AVALIAR</string>
     <string name="register_activity_title">Nova categoria</string>
-    <string name="placeholder_name_register_activity">Trabalho, Academia, Terapia...</string>
+    <string name="placeholder_name_register_activity">Trabalho, Academia, Terapia…</string>
     <string name="label_name_resgister_activity">Qual atividade gostaria de registrar?</string>
     <string name="label_description_resgister_activity">Breve descrição da atividade (*Opcional)</string>
     <string name="placeholder_description_register_activity">Descrição</string>
