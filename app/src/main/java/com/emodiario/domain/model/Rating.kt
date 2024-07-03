@@ -8,6 +8,6 @@ import java.util.Date
 data class Rating(
     val id: Int,
     val rating: CommuteRating,
-    val description: String,
+    val description: String? = null,
     val date: Date
 ): Parcelable
