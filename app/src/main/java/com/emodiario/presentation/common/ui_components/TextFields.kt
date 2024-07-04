@@ -127,7 +127,7 @@ fun PasswordTextField(
             modifier = Modifier.fillMaxWidth(),
             isError = isError
         )
-        AnimatedVisibility(visible = isError && !errorMessage.isNullOrEmpty()) {
+        AnimatedVisibility(visible = (isError && !errorMessage.isNullOrEmpty())) {
             Text(
                 text = errorMessage!!,
                 modifier = Modifier.padding(start = 16.dp),
