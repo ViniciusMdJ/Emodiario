@@ -10,10 +10,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
@@ -30,6 +30,7 @@ import com.emodiario.R
 import com.emodiario.domain.model.User
 import com.emodiario.presentation.common.ScreenState
 import com.emodiario.presentation.common.ui_components.CardLoading
+import com.emodiario.presentation.common.ui_components.DialogError
 import com.emodiario.presentation.common.ui_components.PasswordTextField
 import com.emodiario.presentation.common.ui_components.TextFieldCustom
 import com.emodiario.ui.theme.EmodiarioTheme
@@ -45,11 +46,15 @@ fun LoginScreen(
     val email = viewModel.uiState.email.collectAsState()
     val password = viewModel.uiState.password.collectAsState()
     val showPassword = viewModel.uiState.showPassword.collectAsState()
+    val errorMessageEmail = viewModel.uiState.errorMessageEmail.collectAsState()
+    val errorMessagePassword = viewModel.uiState.errorMessagePassword.collectAsState()
 
     ScreenContent(
         email = email.value,
         password = password.value,
         showPassword = showPassword.value,
+        errorMessageEmail = errorMessageEmail.value,
+        errorMessagePassword = errorMessagePassword.value,
         updateEmail = viewModel.uiState::updateEmail,
         updatePassword = viewModel.uiState::updatePassword,
         toggleShowPassword = viewModel.uiState::toggleShowPassword,
@@ -60,20 +65,16 @@ fun LoginScreen(
     when (screenState.value) {
         ScreenState.Loading -> CardLoading()
         is ScreenState.Error -> {
-            AlertDialog(
+            DialogError(
                 onDismissRequest = { viewModel.uiState.setContent() },
-                confirmButton = {
-                    Button(
-                        onClick = { viewModel.uiState.setContent() }
-                    ) {
-                        Text(text = stringResource(id = R.string.ok))
-                    }
-                },
-                title = {
-                    Text(text = (screenState.value as ScreenState.Error).message)
-                },
-            )
+                title = (screenState.value as ScreenState.Error).message,
+            ) {
+                TextButton(onClick = { viewModel.uiState.setContent() }) {
+                    Text(text = stringResource(id = R.string.ok))
+                }
+            }
         }
+
         else -> {}
     }
 }
@@ -83,6 +84,8 @@ fun ScreenContent(
     email: String,
     password: String,
     showPassword: Boolean,
+    errorMessageEmail: String?,
+    errorMessagePassword: String?,
     updateEmail: (String) -> Unit,
     updatePassword: (String) -> Unit,
     toggleShowPassword: () -> Unit,
@@ -131,7 +134,9 @@ fun ScreenContent(
                     text = email,
                     onTextChanged = updateEmail,
                     keyboardType = KeyboardType.Email,
-                    placeholderText = stringResource(id = R.string.email)
+                    placeholderText = stringResource(id = R.string.email),
+                    isError = !errorMessageEmail.isNullOrEmpty(),
+                    errorMessage = errorMessageEmail
                 )
 
                 Text(
@@ -143,7 +148,9 @@ fun ScreenContent(
                     text = password,
                     onTextChanged = updatePassword,
                     showPassword = showPassword,
-                    toggleVisibility = toggleShowPassword
+                    toggleVisibility = toggleShowPassword,
+                    isError = !errorMessagePassword.isNullOrEmpty(),
+                    errorMessage = errorMessagePassword
                 )
 
                 Text(
@@ -192,12 +199,14 @@ fun LoginScreenPreview() {
             email = "",
             password = "aaaaaaaaa",
             showPassword = false,
+            errorMessageEmail = null,
+            errorMessagePassword = null,
             updateEmail = {},
             updatePassword = {},
             toggleShowPassword = {},
             onRegisterPressed = {},
-            onForgetPasswordPressed = {}) {
-
-        }
+            onForgetPasswordPressed = {},
+            loginPressed = {}
+        )
     }
 }

@@ -29,20 +29,16 @@ class LoginViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             if (!isEmailValid()) {
                 uiState.errorMessageEmail.value = "Email inválido"
-                uiState.isErrorMessageEmailVisible.value = true
                 return@launch
             } else {
-                uiState.isErrorMessageEmailVisible.value = false
-                uiState.errorMessageEmail.value = ""
+                uiState.errorMessageEmail.value = null
             }
 
             if (!isPasswordValid()) {
                 uiState.errorMessagePassword.value = "Senha deve ter no mínimo 6 caracteres"
-                uiState.isErrorMessagePasswordVisible.value = true
                 return@launch
             } else {
-                uiState.isErrorMessagePasswordVisible.value = false
-                uiState.errorMessagePassword.value = ""
+                uiState.errorMessagePassword.value = null
             }
 
             try {
@@ -54,7 +50,11 @@ class LoginViewModel @Inject constructor(
                 }
             } catch (e: HttpException) {
                 Log.e("LoginViewModel", e.toMessageError(), e)
-                uiState.setError(e.toMessageError())
+                if(e.code() == 401) {
+                    uiState.setError("Email ou senha inválidos")
+                } else {
+                    uiState.setError("Erro ao fazer login")
+                }
             } catch (e: Exception) {
                 Log.e("LoginViewModel", "Error: ${e.message}", e)
                 uiState.setError(e.message.orEmpty())

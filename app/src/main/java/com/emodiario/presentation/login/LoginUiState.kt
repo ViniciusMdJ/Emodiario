@@ -16,8 +16,7 @@ class LoginUiState : UiState() {
         _password.value = input
     }
 
-    val errorMessageEmail = MutableStateFlow("")
-    val isErrorMessageEmailVisible = MutableStateFlow(false)
+    val errorMessageEmail = MutableStateFlow<String?>(null)
 
     private val _email = MutableStateFlow("")
     val email = _email.asStateFlow()
@@ -26,8 +25,7 @@ class LoginUiState : UiState() {
         _email.value = newEmail
     }
 
-    val errorMessagePassword = MutableStateFlow("")
-    val isErrorMessagePasswordVisible = MutableStateFlow(false)
+    val errorMessagePassword = MutableStateFlow<String?>(null)
 
     private val _showPassword = MutableStateFlow(false)
     val showPassword = _showPassword.asStateFlow()
