@@ -64,7 +64,7 @@ fun MainNavHost(
                 onProfilePressed = {
                     navController.navigate(PROFILE)
                 },
-                prefs = prefs
+                user = prefs.usuario!!
             )
         }
         composable(LOGIN) {

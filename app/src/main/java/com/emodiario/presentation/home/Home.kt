@@ -49,11 +49,10 @@ fun HomeScreen(
     onRatingActivityPressed: (Activity) -> Unit,
     onActivityPressed: (Activity) -> Unit,
     onProfilePressed: () -> Unit,
-    prefs: Prefs
+    user: User
 ) {
     val screenState = viewModel.uiState.screenState.collectAsState()
     val url = viewModel.uiState.imageUrl.collectAsState()
-    val user = prefs.usuario!!
     val activities = viewModel.uiState.activities.collectAsState()
 
     viewModel.getContent(user)
