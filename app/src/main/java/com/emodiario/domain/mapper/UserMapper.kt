@@ -9,7 +9,7 @@ fun UserResponse.toUser() = User(
     name = name.orEmpty(),
     email = email.orEmpty(),
     phoneNumber = phoneNumber.orEmpty(),
-    photoUrl = phoneNumber
+    photoUrl = profilePicture.orEmpty()
 )
 
 fun User.toUserRequest(password: String) = UserRequest(
