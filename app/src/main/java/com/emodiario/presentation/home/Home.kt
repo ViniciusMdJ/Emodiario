@@ -64,7 +64,6 @@ fun HomeScreen(
         }
 
         ScreenState.Content -> {
-            viewModel.getActivities(user.id)
             ScreenContent(
                 url = url.value,
                 onRegisterNewActivityPressed = onRegisterNewActivityPressed,
@@ -78,7 +77,7 @@ fun HomeScreen(
 
         is ScreenState.Error -> {
             ErrorScreen(
-                 onRetry = { viewModel.getActivities(user.id) },
+                 onRetry = { viewModel.getContent(user) },
                 message = (screenState.value as ScreenState.Error).message
             )
         }

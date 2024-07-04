@@ -24,21 +24,7 @@ class HomeViewModel @Inject constructor(
                 uiState.setContent(user)
             } catch (e: HttpException) {
                 Log.e("RegisterActivityViewModel", e.toMessageError(), e)
-                uiState.setError(e.toMessageError())
-            } catch (e: Exception) {
-                Log.e("RegisterActivityViewModel", e.message.orEmpty(), e)
-                uiState.setError(e.message.orEmpty())
-            }
-        }
-    }
-
-    fun getActivities(userId :Int){
-        viewModelScope.launch{
-            try {
-                uiState.updateActivities(getActivitiesUseCase(userId))
-            } catch (e: HttpException) {
-                Log.e("RegisterActivityViewModel", e.toMessageError(), e)
-                uiState.setError(e.toMessageError())
+                uiState.setError("Erro ao buscar atividades")
             } catch (e: Exception) {
                 Log.e("RegisterActivityViewModel", e.message.orEmpty(), e)
                 uiState.setError(e.message.orEmpty())
