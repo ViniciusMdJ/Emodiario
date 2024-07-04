@@ -86,7 +86,7 @@ class RegisterViewModel @Inject constructor(
                 }
             } catch (e: HttpException) {
                 Log.e("RegisterViewModel", e.toMessageError(), e)
-                uiState.setError(e.response()?.errorBody()?.string().orEmpty())
+                uiState.setError("Erro ao registrar usuário")
             } catch (e: Exception) {
                 Log.e("RegisterViewModel", e.message.orEmpty(), e)
                 uiState.setError(e.message.orEmpty())
