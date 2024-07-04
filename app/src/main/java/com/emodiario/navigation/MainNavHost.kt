@@ -130,14 +130,15 @@ fun MainNavHost(
             )
         }
         composable(PROFILE) {
+            val userId = prefs.usuario?.id ?: -1
             ProfileScreen(
-                userId = prefs.usuario!!.id,
+                userId = userId,
                 onBackPressed = onBackPressed,
                 onLogoutPressed = {
-                    prefs.logout()
                     navController.navigate(LOGIN) {
                         popUpTo(HOME) {
                             inclusive = true
+                            prefs.logout()
                         }
                     }
                 }
