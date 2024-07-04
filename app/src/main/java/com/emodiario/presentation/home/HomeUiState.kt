@@ -16,7 +16,7 @@ class HomeUiState: UiState() {
     val activities = _activities.asStateFlow()
 
     fun updateActivities(activities: List<Activity>) {
-        _activities.value = activities
+        _activities.value = activities.sortedBy { it.name }
     }
 
     fun setContent(user: User) {
