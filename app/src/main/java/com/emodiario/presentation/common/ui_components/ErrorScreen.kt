@@ -23,10 +23,9 @@ fun ErrorScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Text(text = "Ocorreu um erro")
         if (message.isNotEmpty()) {
             Text(text = message)
-        } else {
-            Text(text = "Ocorreu um erro inesperado")
         }
         Button(
             onClick = onRetry
