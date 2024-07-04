@@ -12,6 +12,7 @@ Bem-vindo ao repositório do **Emodiario**, um aplicativo móvel nativo para And
 - [Contribuição](#contribuição)
 - [Licença](#licença)
 - [Contato](#contato)
+- [Documentação](./docs/README.md)
 
 ## Descrição do Projeto
 
@@ -19,20 +20,20 @@ O **Emodiario** é uma ferramenta que visa ajudar os usuários a monitorarem sua
 
 ## Funcionalidades
 
+- **Categorias de Atividades**: O usuário pode registrar suas atividades diárias e associar sentimentos a elas.
 - **Registro de Sentimentos**: Permite aos usuários registrar como estão se sentindo em relação a atividades específicas.
-- **Categorias de Atividades**: Inclui categorias pré-definidas como deslocamento diário, trabalho, família, entre outras.
 - **Histórico de Registros**: Visualize os registros passados para acompanhar mudanças nos sentimentos ao longo do tempo.
-- **Gráficos e Estatísticas**: Geração de gráficos para análise visual dos sentimentos registrados.
-- **Notificações**: Lembretes para registrar sentimentos em intervalos regulares.
 
 ## Instalação
+
+O aplicativo foi feito para se conectar em um servidor remoto, portanto, para executá-lo, é necessário clonar o repositório do servidor e seguir as instruções de instalação. O repositório do servidor pode ser encontrado [aqui](https://github.com/adamisse/Emodiario-API). Para configurar a conexão com o servidor, é necessário alterar a URL base no arquivo [`Constants.kt`](app\src\main\java\com\emodiario\Constraints.kt) para o endereço do servidor.
 
 Para clonar e executar este aplicativo, você precisará do Android Studio instalado em sua máquina. Siga as etapas abaixo:
 
 1. Clone este repositório:
    ```bash
-   git clone https://github.com/seu-usuario/nome-do-repositorio.git
-
+   git clone https://github.com/ViniciusMdJ/Emodiario
+   ```
 
 2. Abra o projeto no Android Studio.
 3. Conecte um dispositivo Android ou inicie um emulador.
@@ -41,27 +42,21 @@ Para clonar e executar este aplicativo, você precisará do Android Studio insta
 ## Uso
 
 1. Abra o aplicativo.
-2. Selecione uma categoria de atividade (e.g., trabalho, deslocamento).
+2. Selecione ou crie uma categoria de atividade (e.g., trabalho, deslocamento).
 3. Registre seu sentimento atual e adicione uma breve descrição se desejar.
 4. Salve o registro.
 5. Acesse o histórico para visualizar e analisar seus registros passados.
    
 ## Tecnologias Utilizadas
 
-- Linguagem: Java/Kotlin
+- Linguagem: Kotlin
 - IDE: Android Studio
-- Banco de Dados: SQLite
 - Bibliotecas:
+    - Material 3
+    - Jetpack Compose
+    - Hilt
+    - Coil
     - Retrofit
-## Contribuição
-
-Contribuições são bem-vindas! Para contribuir, siga as etapas abaixo:
-
-1. Fork o projeto.
-2. Crie uma branch para sua feature (`git checkout -b feature/nova-feature`).
-3. Commit suas mudanças (`git commit -m 'Adiciona nova feature'`).
-4. Faça push para a branch (`git push origin feature/nova-feature`).
-5. Abra um Pull Request.
 
 ## Licença
 
