@@ -13,7 +13,7 @@ class RatingHistoryUiState : UiState() {
     val ratingHistory = _ratingHistory.asStateFlow()
 
     fun updateRatingHistory(list: List<Rating>) {
-        _ratingHistory.value = list.sortedBy { it.date }
+        _ratingHistory.value = list.sortedByDescending { it.date.time }
     }
 
     @OptIn(ExperimentalMaterial3Api::class)
