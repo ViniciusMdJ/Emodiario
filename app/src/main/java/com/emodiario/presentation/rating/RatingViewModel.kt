@@ -28,7 +28,7 @@ class RatingViewModel @Inject constructor(
                 return@launch
             }
             if(!isRatingValid()) {
-                uiState.setError("Selecione uma nota")
+                uiState.setError("Selecione como você classifica a atividade")
                 return@launch
             }
 
