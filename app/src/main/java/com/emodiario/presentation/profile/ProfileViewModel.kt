@@ -25,6 +25,7 @@ class ProfileViewModel @Inject constructor(
                 uiState.updateName(profile.name)
                 uiState.updatePhotoUrl(profile.photoUrl ?: "")
                 Log.i("ProfileViewModel", "Profile: $profile")
+                uiState.setContent()
             } catch (e: HttpException) {
                 Log.e("ProfileViewModel", e.toMessageError(), e)
                 uiState.setError(e.toMessageError())
