@@ -18,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -49,13 +50,15 @@ fun RegisterScreen(
                 title = {
                     Text(
                         text = stringResource(id = R.string.register_title),
+                        color = Color.White
                     )
                 },
                 navigationIcon = {
                     Icon(
                         modifier = Modifier.clickable { onBackPressed() },
                         painter = painterResource(id = R.drawable.ic_arrow_back),
-                        contentDescription = "Back buttom"
+                        contentDescription = "Back buttom",
+                        tint = Color.White,
                     )
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
