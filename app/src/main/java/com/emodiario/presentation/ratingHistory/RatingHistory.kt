@@ -43,6 +43,9 @@ import com.emodiario.R
 import com.emodiario.presentation.common.toHistoryRatingDateFormat
 import com.emodiario.domain.model.CommuteRating
 import com.emodiario.domain.model.Rating
+import com.emodiario.presentation.common.ScreenState
+import com.emodiario.presentation.common.ui_components.ErrorScreen
+import com.emodiario.presentation.common.ui_components.LoadingScreen
 import com.emodiario.ui.theme.EmodiarioTheme
 import java.util.Date
 
@@ -54,17 +57,33 @@ fun RatingHistoryScreen(
     activityId: Int,
     activityName: String
 ) {
-    viewModel.getRatingHistory(activityId)
+
+    val screenState = viewModel.uiState.screenState.collectAsState()
     val items = viewModel.uiState.ratingHistory.collectAsState()
     val scrollBehavior =
         TopAppBarDefaults.enterAlwaysScrollBehavior(viewModel.uiState.topAppBarState)
 
-    ScreenContent(
-        onBackPressed = onBackPressed,
-        items = items.value,
-        scrollBehavior = scrollBehavior,
-        activityName = activityName
-    )
+    when (screenState.value) {
+        ScreenState.Loading -> {
+            viewModel.getRatingHistory(activityId)
+            LoadingScreen()
+        }
+        ScreenState.Content -> {
+            ScreenContent(
+                onBackPressed = onBackPressed,
+                items = items.value,
+                scrollBehavior = scrollBehavior,
+                activityName = activityName
+            )
+        }
+        is ScreenState.Error -> {
+            ErrorScreen(
+                onRetry = {viewModel.getRatingHistory(activityId)},
+                message = (screenState.value as ScreenState.Error).message
+            )
+        }
+    }
+
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

@@ -31,6 +31,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.emodiario.R
+import com.emodiario.presentation.common.ScreenState
+import com.emodiario.presentation.common.ui_components.ErrorScreen
+import com.emodiario.presentation.common.ui_components.LoadingScreen
 import com.emodiario.presentation.common.ui_components.NetworkImage
 import com.emodiario.ui.theme.EmodiarioTheme
 
@@ -41,20 +44,34 @@ fun ProfileScreen(
     userId: Int,
     viewModel: ProfileViewModel = hiltViewModel()
 ) {
-    viewModel.getContent(userId)
-
+    val screenState = viewModel.uiState.screenState.collectAsState()
     val name = viewModel.uiState.name.collectAsState()
     val photoUrl = viewModel.uiState.photoUrl.collectAsState()
     val showDialog = viewModel.uiState.showDialog.collectAsState()
 
-    ScreenContent(
-        name = name.value,
-        photoUrl = photoUrl.value,
-        showDialog = showDialog.value,
-        toggleShowDialog = viewModel.uiState::updateShowDialog,
-        onBackPressed = onBackPressed,
-        onLogoutPressed = onLogoutPressed
-    )
+    when (screenState.value) {
+        ScreenState.Loading -> {
+            viewModel.getContent(userId)
+            LoadingScreen()
+        }
+        ScreenState.Content -> {
+            ScreenContent(
+                name = name.value,
+                photoUrl = photoUrl.value,
+                showDialog = showDialog.value,
+                toggleShowDialog = viewModel.uiState::updateShowDialog,
+                onBackPressed = onBackPressed,
+                onLogoutPressed = onLogoutPressed
+            )
+        }
+
+        is ScreenState.Error -> {
+            ErrorScreen(
+                onRetry = {viewModel.getContent(userId)},
+                message = (screenState.value as ScreenState.Error).message
+            )
+        }
+    }
 }
 
 @Composable

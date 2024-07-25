@@ -37,6 +37,8 @@ import com.emodiario.presentation.common.ui_components.CardDate
 import com.emodiario.presentation.common.ui_components.TextFieldCustom
 import com.emodiario.domain.model.Activity
 import com.emodiario.domain.model.CommuteRating
+import com.emodiario.presentation.common.ScreenState
+import com.emodiario.presentation.common.ui_components.DialogError
 import com.emodiario.ui.theme.EmodiarioTheme
 
 @Composable
@@ -48,6 +50,7 @@ fun RatingScreen(
     activityName: String
 ) {
     val activity = Activity(activityId, activityName)
+    val screenState = viewModel.uiState.screenState.collectAsState()
     val date = viewModel.uiState.date.collectAsState()
     val showDatePickerDialog = viewModel.uiState.showDatePickerDialog.collectAsState()
     val description = viewModel.uiState.description.collectAsState()
@@ -66,6 +69,14 @@ fun RatingScreen(
         updateRatingSelected = viewModel.uiState::updateRating,
         registerRating = { viewModel.registerRating(registerSuccessful, activityId) }
     )
+
+    if(screenState.value is ScreenState.Error) {
+        DialogError(onDismissRequest = { }, title = "Erro", message = (screenState.value as ScreenState.Error).message){
+            Button(onClick = viewModel.uiState::setContent) {
+                Text(text = stringResource(id = R.string.ok))
+            }
+        }
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -98,6 +109,7 @@ fun ScreenContent(
                     Icon(
                         modifier = Modifier.clickable { onBackPressed() },
                         painter = painterResource(id = R.drawable.ic_arrow_back),
+                        tint = Color.White,
                         contentDescription = "Back buttom"
                     )
                 },
